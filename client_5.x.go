@@ -214,6 +214,29 @@ func (gc *GrafanaClient_5_0) DeleteDashboard(uid string) (bool, error) {
 // 401 – Unauthorized
 // 403 – Access denied
 // 404 – Not found
+func (gc *GrafanaClient_5_0) GetDashboardWithMeta(uid string) (*GetDashboardByUIdResponse, error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/dashboards/uid/%s", gc.basicAddress, uid), nil)
+	if err != nil {
+		return nil, err
+	}
+	bodyData, err := gc.getHTTPResponse(req, "GetDashboardDetails(/api/dashboards/uid/[UID])")
+	if err != nil {
+		return nil, err
+	}
+	var rsp GetDashboardByUIdResponse
+	err = json.Unmarshal(bodyData, &rsp)
+	if err != nil {
+		return nil, fmt.Errorf("Unmarshal response body failed while calling to API GetDashboardDetails(/api/dashboards/uid/[UID]), error: %s", err.Error())
+	}
+	return &rsp, nil
+}
+
+// Status Codes:
+//-------------------
+// 200 – Found
+// 401 – Unauthorized
+// 403 – Access denied
+// 404 – Not found
 func (gc *GrafanaClient_5_0) GetDashboardDetails(uid string) (*Board, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/dashboards/uid/%s", gc.basicAddress, uid), nil)
 	if err != nil {
