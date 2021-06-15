@@ -28,7 +28,6 @@ type GrafanaClienter interface {
 	NewDashboard(board *Board, folderId uint, overwrite bool) (*Board, error)
 	DeleteDashboard(uid string) (bool, error)
 	GetDashboardDetails(uid string) (*Board, error)
-	GetDashboardWithMeta(uid string) (*GetDashboardByUIdResponse, error)
 	EnsureFolderExists(folderId int, uid, title string) (int, bool, error)
 	CreateAPIKey(name string, role string, secondsToLive int) (string, error)
 	FindAllAPIKeys() ([]APIKey, error)
